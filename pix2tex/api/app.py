@@ -5,10 +5,20 @@ from fastapi import FastAPI, File, UploadFile, Form
 from PIL import Image
 from io import BytesIO
 from pix2tex.cli import LatexOCR
+from fastapi.middleware.cors import CORSMiddleware
 
 model = None
 app = FastAPI(title='pix2tex API')
 
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def read_imagefile(file) -> Image.Image:
     image = Image.open(BytesIO(file))
